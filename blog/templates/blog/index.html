@@ -5,6 +5,9 @@
   <title>{{ title }}</title>
 </head>
 <body>
-<h1>{{ welcome }}</h1>
+  {% for post in post_list %}
+    <h1>{{ post.title }}</h1>
+    <h2>{{ post.body }}</h2>
+  {% endfor %}
 </body>
 </html>
