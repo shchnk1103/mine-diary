@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 # 标签
@@ -9,6 +10,10 @@ class Tag(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        verbose_name = '标签'
+        verbose_name_plural = '标签'
+
 
 # 分类
 class Category(models.Model):
@@ -17,17 +22,31 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        verbose_name = '分类'
+        verbose_name_plural = '分类'
+
 
 # 文章
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    body = models.TextField()
-    created_time = models.DateTimeField()
-    modified_time = models.DateTimeField()
-    excerpt = models.CharField(max_length=100, blank=True)
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, blank=True)
+    author = models.ForeignKey(
+        User, verbose_name='作者', on_delete=models.CASCADE)
+    title = models.CharField('标题', max_length=100)
+    body = models.TextField('正文')
+    created_time = models.DateTimeField('创建时间', default=timezone.now)
+    modified_time = models.DateTimeField('修改时间')
+    excerpt = models.CharField('摘要', max_length=100, blank=True)
+    categories = models.ForeignKey(
+        Category, verbose_name='归档', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
 
     def __str__(self) -> str:
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.modified_time = timezone.now()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = '文章'
+        verbose_name_plural = '文章'
