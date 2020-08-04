@@ -3,43 +3,43 @@
 {% block main %}
 
   {% for post in post_list %}
-  <div class="box-element post">
-    <article class="post post-{{ post.pk }}">
+    <div class="box-element post">
+      <article class="post post-{{ post.pk }}">
 
-      <header class="entry-header">
+        <header class="entry-header">
 
-        <!-- 文章标题 -->
-        <h1 class="entry-title">
-          <a>{{ post.title }}</a>
-        </h1>
+          <!-- 文章标题 -->
+          <h1 class="entry-title">
+            <a>{{ post.title }}</a>
+          </h1>
 
-        <!-- 文章信息栏 -->
-        <div class="entry-meta">
-          <span class="post-category"><a>{{ post.categories.name }}</a></span>
-          <span class="post-date"><a><time class="entry-date"
-                datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
-          <span class="post-author"><a>{{ post.author }}</a></span>
-          <span class="comments-link"><a>99 评论</a></span>
-          <span class="views-count"><a>199 阅读</a></span>
+          <!-- 文章信息栏 -->
+          <div class="entry-meta">
+            <span class="post-category"><a>{{ post.categories.name }}</a></span>
+            <span class="post-date"><a><time class="entry-date"
+                  datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
+            <span class="post-author"><a>{{ post.author }}</a></span>
+            <span class="comments-link"><a>99 评论</a></span>
+            <span class="views-count"><a>199 阅读</a></span>
+          </div>
+
+        </header>
+
+        <!-- 文章简述 -->
+        <div class="entry-content clearfix">
+          <p>{{ post.excerpt }}...</p>
+          <div class="read-more cl-effect-14">
+            <a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
+          </div>
         </div>
+        <br>
+        <br>
 
-      </header>
-
-      <!-- 文章简述 -->
-      <div class="entry-content clearfix">
-        <p>{{ post.excerpt }}...</p>
-        <div class="read-more cl-effect-14">
-          <a href="{{ post.get_absolute_url }}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
-        </div>
-      </div>
-      <br>
-      <br>
-
-    </article>
-  </div>
-  <br>
+      </article>
+    </div>
+    <br>
   {% empty %}
-  <div class="no-post">暂时还没有发布的文章！</div>
+    <div class="no-post">暂时还没有发布的文章！</div>
   {% endfor %}
 
 {% endblock main %}
