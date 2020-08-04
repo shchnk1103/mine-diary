@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 import markdown
 from markdown.extensions.toc import TocExtension, slugify
-from .models import Post
+from .models import Category, Post, Tag
 
 
 def index(request):
@@ -27,3 +27,28 @@ def detail(request, pk):
 
     context = {'post': post}
     return render(request, 'blog/detail.html', context)
+
+
+def archives(request, year, month):
+    post_list = Post.objects.filter(
+        created_time__year=year, created_time__month=month
+    ).order_by('-created_time')
+    context = {
+        'post_list': post_list,
+    }
+    return render(request, 'blog/index.html', context)
+
+
+def categories(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    post_list = Post.objects.filter(
+        categories=category).order_by('-created_time')
+    context = {'post_list': post_list, }
+    return render(request, 'blog/index.html', context)
+
+
+def tags(request, pk):
+    tag = get_object_or_404(Tag, pk=pk)
+    post_list = Post.objects.filter(tags=tag).order_by('-created_time')
+    context = {'post_list': post_list, }
+    return render(request, 'blog/index.html', context)
