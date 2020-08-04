@@ -1,0 +1,14 @@
+<div class="widget widget-recent-posts">
+  <h3 class="widget-title entry-title">最新文章</h3>
+  <ul>
+    {% for post in recent_post_list %} 
+      <div class="entry-free">
+        <li>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </li>
+      </div>
+    {% empty %}
+      暂无文章！
+    {% endfor %}
+  </ul>
+</div>

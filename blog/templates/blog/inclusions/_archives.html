@@ -1,0 +1,14 @@
+<div class="widget widget-archives">
+  <h3 class="widget-title entry-title">归档</h3>
+  <ul>
+    {% for date in date_list %}
+    <div class="entry-free">
+        <li>
+            <a href="#">{{ date.year }} 年 {{ date.month }} 月</a>
+        </li>
+    </div>
+    {% empty %}
+      暂无归档！
+    {% endfor %}
+  </ul>
+</div>

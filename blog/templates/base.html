@@ -1,4 +1,5 @@
 {% load static %}
+{% load blog_extras %}
 <!DOCTYPE html>
 <html>
 
@@ -111,6 +112,26 @@
           
           {% block toc %}
           {% endblock toc %}
+
+          <div class="box-element">
+            {% show_recent_posts %}
+          </div>
+          <br>
+
+          <div class="box-element">
+            {% show_archives %}
+          </div>
+          <br>
+
+          <div class="box-element">
+            {% show_categories %}
+          </div>
+          <br>
+
+          <div class="box-element">
+            {% show_tags %}
+          </div>
+          <br>
 
         </aside>
 

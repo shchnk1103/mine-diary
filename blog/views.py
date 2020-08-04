@@ -2,7 +2,7 @@ import re
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 import markdown
-from markdown import extensions
+from markdown.extensions.toc import TocExtension, slugify
 from .models import Post
 
 
@@ -17,7 +17,7 @@ def detail(request, pk):
     md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
-        'markdown.extensions.toc',
+        TocExtension(slugify=slugify),
     ])
     post.body = md.convert(post.body)
 

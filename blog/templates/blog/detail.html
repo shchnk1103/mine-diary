@@ -2,6 +2,8 @@
 
 {% block main %}
 
+  <div class="box-element">
+
     <article class="post post-{{ post.pk }}">
 
     <header class="entry-header">
@@ -27,19 +29,27 @@
     <br>
     </article>
     <hr>
-    
+
+  </div>
 
 {% endblock main %}
 
 {% block toc %}
+
   {% if post.toc %}
-    <div class="widget widget-content">
-      <h3 class="widget-title">文章目录</h3>
+
+    <div class="widget widget-content box-element">
+
+      <h3 class="entry-free">文章目录</h3>
       <div class="toc">
         <ul>
           {{ post.toc|safe }}
         </ul>
       </div>
+      
     </div>
+    <br>
+
   {% endif %}
+
 {% endblock toc %}
