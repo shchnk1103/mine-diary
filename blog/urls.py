@@ -1,4 +1,4 @@
-from blog.views import ArchivesView, CategoryView, IndexView, PostDetailView, TagsViews
+from blog.views import ArchivesView, CategoryView, IndexView, PostDetailView, TagsViews, search
 from django.urls import path
 
 app_name = 'blog'
@@ -9,5 +9,6 @@ urlpatterns = [
     path('archives/<int:year>/<int:month>/',
          ArchivesView.as_view(), name='archives'),
     path('categories/<int:pk>/', CategoryView.as_view(), name='categories'),
-    path('tags/<int:pk>/', TagsViews.as_view(), name='tags')
+    path('tags/<int:pk>/', TagsViews.as_view(), name='tags'),
+    path('search/', search, name='search'),
 ]

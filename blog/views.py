@@ -1,10 +1,9 @@
-import re
-from django.shortcuts import get_object_or_404
-import markdown
-from markdown.extensions.toc import TocExtension, slugify
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Category, Post, Tag
 from django.views.generic import ListView, DetailView
 from pure_pagination.mixins import PaginationMixin
+from django.contrib import messages
+from django.db.models import Q
 
 
 class IndexView(PaginationMixin, ListView):
@@ -130,3 +129,20 @@ class TagsViews(IndexView):
 #     post_list = Post.objects.filter(tags=tag)
 #     context = {'post_list': post_list, }
 #     return render(request, 'blog/index.html', context)
+
+
+def search(request):
+
+    # NavBar 中搜索框设置的 name
+    q = request.GET.get('q')
+
+    if not q:
+        error_message = '请输入关键词'
+        messages.add_message(request, messages.ERROR,
+                             error_message, extra_tags='danger')
+        return redirect('blog:index')
+
+    post_list = Post.objects.filter(
+        Q(title__icontains=q) | Q(body__icontains=q))
+    context = {'post_list': post_list}
+    return render(request, 'blog/index.html', context)
