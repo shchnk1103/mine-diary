@@ -4,7 +4,7 @@
     {% for date in date_list %}
     <div class="entry-free">
         <li>
-            <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月</a>
+            <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月 <span class="post-count">( {{ date.num_posts }} )</a>
         </li>
     </div>
     {% empty %}
