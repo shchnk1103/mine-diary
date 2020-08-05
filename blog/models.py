@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, update_last_login
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
@@ -42,9 +42,14 @@ class Post(models.Model):
     categories = models.ForeignKey(
         Category, verbose_name='归档', on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
+    views = models.PositiveIntegerField(default=0, editable=False)
 
     def __str__(self) -> str:
         return self.title
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
 
     def save(self, *args, **kwargs):
         self.modified_time = timezone.now()

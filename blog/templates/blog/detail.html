@@ -15,8 +15,8 @@
         <span class="post-date"><a><time class="entry-date"
                                                     datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
         <span class="post-author"><a>{{ post.author }}</a></span>
-        <span class="comments-link"><a>4 评论</a></span>
-        <span class="views-count"><a>588 阅读</a></span>
+        <span class="comments-link"><a href="#comment-area">{{ post.comment_set.count }} 评论</a></span>
+        <span class="views-count"><a>{{ post.views }} 阅读</a></span>
         </div>
 
     </header>
@@ -31,12 +31,14 @@
     </article>
     <hr>
 
-    <h3 class="entry-title">发表评论</h3>
-    {% show_comment_form post %}
+    <section class="comment-area" id="comment-area">
+      <h3 class="entry-title">发表评论</h3>
+      {% show_comment_form post %}
 
-    <div class="comment-list-panel entry-title">
-      {% show_comments post %}
-    </div>
+      <div class="comment-list-panel entry-title">
+        {% show_comments post %}
+      </div>
+    </section>
 
   </div>
 
