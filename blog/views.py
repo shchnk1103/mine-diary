@@ -7,7 +7,7 @@ from .models import Category, Post, Tag
 
 
 def index(request):
-    post_list = Post.objects.order_by('-created_time')
+    post_list = Post.objects.all()
     context = {'post_list': post_list}
     return render(request, 'blog/index.html', context)
 
@@ -32,7 +32,7 @@ def detail(request, pk):
 def archives(request, year, month):
     post_list = Post.objects.filter(
         created_time__year=year, created_time__month=month
-    ).order_by('-created_time')
+    )
     context = {
         'post_list': post_list,
     }
@@ -42,13 +42,13 @@ def archives(request, year, month):
 def categories(request, pk):
     category = get_object_or_404(Category, pk=pk)
     post_list = Post.objects.filter(
-        categories=category).order_by('-created_time')
+        categories=category)
     context = {'post_list': post_list, }
     return render(request, 'blog/index.html', context)
 
 
 def tags(request, pk):
     tag = get_object_or_404(Tag, pk=pk)
-    post_list = Post.objects.filter(tags=tag).order_by('-created_time')
+    post_list = Post.objects.filter(tags=tag)
     context = {'post_list': post_list, }
     return render(request, 'blog/index.html', context)
