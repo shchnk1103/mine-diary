@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load comments_extras %}
 
 {% block main %}
 
@@ -29,6 +30,13 @@
     <br>
     </article>
     <hr>
+
+    <h3 class="entry-title">发表评论</h3>
+    {% show_comment_form post %}
+
+    <div class="comment-list-panel entry-title">
+      {% show_comments post %}
+    </div>
 
   </div>
 
