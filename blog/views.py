@@ -19,7 +19,7 @@ class IndexView(PaginationMixin, ListView):
     context_object_name = 'post_list'
 
     # 指定10篇文章分页
-    paginate_by = 10
+    paginate_by = 8
 
 
 # def index(request):
@@ -44,22 +44,22 @@ class PostDetailView(DetailView):
 
         return HttpResponse
 
-    def get_object(self, queryset=None):
+    # def get_object(self, queryset=None):
 
-        post = super().get_object(queryset=None)
+    #     post = super().get_object(queryset=None)
 
-        md = markdown.Markdown(extensions=[
-            'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-            TocExtension(slugify=slugify),
-        ])
-        post.body = md.convert(post.body)
+    #     md = markdown.Markdown(extensions=[
+    #         'markdown.extensions.extra',
+    #         'markdown.extensions.codehilite',
+    #         TocExtension(slugify=slugify),
+    #     ])
+    #     post.body = md.convert(post.body)
 
-        m = re.search(
-            r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
-        post.toc = m.group(1) if m is not None else ''
+    #     m = re.search(
+    #         r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+    #     post.toc = m.group(1) if m is not None else ''
 
-        return post
+    #     return post
 
 
 # def detail(request, pk):

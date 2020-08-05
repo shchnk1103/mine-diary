@@ -1,9 +1,26 @@
-from django.contrib.auth.models import User, update_last_login
+import re
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 import markdown
 from django.utils.html import strip_tags
+from markdown.extensions.toc import TocExtension, slugify
+from django.utils.functional import cached_property
+
+
+def generate_rich_content(value):
+    md = markdown.Markdown(
+        extensions=[
+            "markdown.extensions.extra",
+            "markdown.extensions.codehilite",
+            TocExtension(slugify=slugify),
+        ]
+    )
+    content = md.convert(value)
+    m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+    toc = m.group(1) if m is not None else ""
+    return {"content": content, "toc": toc}
 
 
 # 标签
@@ -64,6 +81,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'pk': self.pk})
+
+    @cached_property
+    def rich_content(self):
+        return generate_rich_content(self.body)
+
+    @property
+    def toc(self):
+        return self.rich_content.get('toc', '')
+
+    @property
+    def body_html(self):
+        return self.rich_content.get('content', '')
 
     class Meta:
         verbose_name = '文章'
