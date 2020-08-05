@@ -910,13 +910,16 @@ img {
 }
 
 .pagination ul {
+    text-align: center;
     list-style: none;
 }
 
 .pagination ul li {
+    text-align: center;
     display: inline-block;
     font-size: 16px;
-    margin-right: 5px;
+    margin-right: 0px;
+    padding-right: 0px;
 }
 
 .current a {

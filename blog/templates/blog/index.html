@@ -42,6 +42,16 @@
     <div class="no-post">暂时还没有发布的文章！</div>
   {% endfor %}
 
+  <!-- 分页 -->
+  <div class="entry-free"> 
+    {% if is_paginated %}
+      
+        {{ page_obj.render }}
+      
+    {% endif %}
+  </div>
+  
+
 {% endblock main %}
 
           

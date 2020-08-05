@@ -4,9 +4,10 @@ import markdown
 from markdown.extensions.toc import TocExtension, slugify
 from .models import Category, Post, Tag
 from django.views.generic import ListView, DetailView
+from pure_pagination.mixins import PaginationMixin
 
 
-class IndexView(ListView):
+class IndexView(PaginationMixin, ListView):
 
     # 要获取的模型是 Post
     model = Post
@@ -16,6 +17,9 @@ class IndexView(ListView):
 
     # 获取的模型列表数据保存的变量名
     context_object_name = 'post_list'
+
+    # 指定10篇文章分页
+    paginate_by = 10
 
 
 # def index(request):
