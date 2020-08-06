@@ -49,17 +49,26 @@ class Category(models.Model):
 
 # 文章
 class Post(models.Model):
+    # 作者
     author = models.ForeignKey(
         User, verbose_name='作者', on_delete=models.CASCADE)
+    # 标题
     title = models.CharField('标题', max_length=100)
+    # 正文
     body = models.TextField('正文')
+    # 创建时间
     created_time = models.DateTimeField('创建时间', default=timezone.now)
+    # 修改时间
     modified_time = models.DateTimeField('修改时间')
+    # 摘要
     excerpt = models.CharField('摘要', max_length=100, blank=True)
+    # 归档
     categories = models.ForeignKey(
         Category, verbose_name='归档', on_delete=models.CASCADE)
+    # 标签
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
-    views = models.PositiveIntegerField(default=0, editable=False)
+    # 浏览量
+    views = models.PositiveIntegerField('浏览量', default=0, editable=False)
 
     def __str__(self) -> str:
         return self.title

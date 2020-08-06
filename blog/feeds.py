@@ -11,7 +11,7 @@ class AllPostsRssFeed(Feed):
     link = '/'
 
     # 显示在聚合阅读器上的描述信息
-    description = '<Mine-Diary> 的所有文章～'
+    description = 'Mine-Diary 的所有文章～'
 
     # 需要显示的内容条目
     def items(self):
