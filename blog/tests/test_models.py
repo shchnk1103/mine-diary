@@ -1,7 +1,23 @@
-from blog.models import Category, Post
+from blog.models import Category, Post, Tag
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+
+
+class CategoriesModelTestCase(TestCase):
+    def setUp(self):
+        self.categories = Category.objects.create(name='test')
+
+    def test_str_representation(self):
+        self.assertEqual(self.categories.__str__(), self.categories.name)
+
+
+class TagsModelTestCase(TestCase):
+    def setUp(self):
+        self.tags = Tag.objects.create(name='test')
+
+    def test_str_representation(self):
+        self.assertEqual(self.tags.__str__(), self.tags.name)
 
 
 class PostModelTestCase(TestCase):

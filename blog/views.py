@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 
-class IndexView(PaginationMixin, ListView):
+class IndexView(ListView):
 
     # 要获取的模型是 Post
     model = Post

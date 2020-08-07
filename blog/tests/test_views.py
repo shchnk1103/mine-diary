@@ -243,3 +243,13 @@ class RSSTestCase(BlogDataTestCase):
             self.post2.categories, self.post2.title))
         self.assertContains(response, text=self.post1.body)
         self.assertContains(response, text=self.post2.body)
+
+
+# 测试搜索功能
+# class SearchTestCase(BlogDataTestCase):
+#     def setUp(self):
+#         self.url = reverse('blog:search')
+
+#     def test_search_without_any_keywords(self):
+#         response = self.client.get(self.url)
+#         self.assertIsNone(response.context)

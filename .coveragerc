@@ -1,0 +1,12 @@
+[run]
+branch = True
+source = .
+omit = 
+    manage.py
+    mysite/wsgi.py
+    scripts/fake.py
+    mysite/asgi.py
+
+[report]
+show_missing = True
+skip_covered = True
