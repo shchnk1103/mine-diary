@@ -2,18 +2,6 @@
   {% csrf_token %}
 
   <div class="row">
-  
-    <div class="col-md-6">
-        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}：</label>
-        {{ form.name }}
-        {{ form.name.errors }}
-    </div>
-
-    <div class="col-md-6">
-        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}：</label>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
 
     <div class="col-md-12">
         <label for="{{ form.text.id_for_label }}">{{ form.text.label }}：</label>

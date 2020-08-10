@@ -6,11 +6,11 @@ class CommentModelTestCase(CommentDataTestCase):
     def setUp(self):
         super().setUp()
         self.comment = Comment.objects.create(
-            name='Test',
-            email='test@test.com',
+            name=self.user,
+            email=self.user,
             text='test1',
             post=self.post,
         )
 
     def test_str_representation(self):
-        self.assertEqual(self.comment.__str__(), 'Test: test1')
+        self.assertEqual(self.comment.__str__(), 'test1')

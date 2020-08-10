@@ -97,8 +97,8 @@ if __name__ == '__main__':
             str((timezone.now() - post_created_time).days) + 'd'
         for _ in range(random.randrange(3, 15)):
             Comment.objects.create(
-                name=fake.name(),
-                email=fake.email(),
+                name=user,
+                email=user,
                 text=fake.paragraph(),
                 created_time=fake.date_time_between(
                     start_date=delta_in_days,
