@@ -1,0 +1,56 @@
+{% load static %}
+<button type="button" id="BackTop" class="toTop-arrow"><img src="{% static 'blog/images/shangjiantou.png' %}" loading="lazy"></img></button>
+<script>
+    $(function(){
+        $('#BackTop').click(function(){ 
+            $('html,body').animate({scrollTop:0}, 333);
+        });
+        $(window).scroll(function() {
+            if ( $(this).scrollTop() > 300 ){
+                $('#BackTop').fadeIn(222);
+            } else {
+                $('#BackTop').stop().fadeOut(222);
+            }
+        }).scroll();
+    });
+</script>
+{% comment %} 
+第 5~7 行：点击按钮时，自动回到网页最上方，0.333秒完成滚动动作
+第 8 行：当浏览器滚动时，就执行 8~12 行的程序
+第 9 行：判断网页的最上方距离网页顶端是否超过 300 px
+第 10 行：超过 300 px，以0.222秒的特效显示按钮
+第 11 行：未超过 300 px，先停止正在进行的特效，接着以 0.222 秒的特效隐藏按钮 
+{% endcomment %}
+
+<style>
+    /* 48px */
+    .toTop-arrow {
+        width: 4rem;
+        height: 4rem;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        border-radius: 33%;
+        opacity: 0.6;
+        cursor: pointer;
+        position:fixed;
+        right: 1rem;
+        bottom: 1rem;
+        display: none;
+    }
+    .toTop-arrow::before, .toTop-arrow::after {
+        border-radius: 3px;
+        position: absolute;
+        content: "";
+    }
+    .toTop-arrow::before {
+        transform: rotate(-45deg);
+    }
+    .toTop-arrow::after {
+        transform: rotate(45deg);
+    }
+    .toTop-arrow:focus {
+        outline: none;
+    }
+</style>
+ 

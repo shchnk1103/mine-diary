@@ -19,8 +19,8 @@
             <span class="post-date"><a><time class="entry-date"
                   datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
             <span class="post-author"><a>{{ post.author }}</a></span>
-            <span class="comments-link"><a href="{{ post.get_absolute_url }}#comment-area">{{ post.comments_post.count }} 评论</a></span>
-            <span class="views-count"><a href="{{ post.get_absolute_url }}">{{ post.views }} 阅读</a></span>
+            <span class="comments-link"><a href="{{ post.get_absolute_url }}#comment-area">{{ post.comments_post.count }} <i class="fas fa-comment-dots"></i></a></span>
+            <span class="views-count"><a href="{{ post.get_absolute_url }}">{{ post.views }} <i class="far fa-eye"></i></a></span>
           </div>
 
         </header>
