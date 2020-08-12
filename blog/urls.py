@@ -1,4 +1,4 @@
-from blog.views import ArchivesView, CategoryView, IndexView, PostDetailView, TagsViews, search
+from blog.views import ArchivesView, CategoryView, IncreaseLikeView, IndexView, PostDetailView, TagsViews, search
 from django.urls import path
 
 app_name = 'blog'
@@ -11,4 +11,6 @@ urlpatterns = [
     path('categories/<int:pk>/', CategoryView.as_view(), name='categories'),
     path('tags/<int:pk>/', TagsViews.as_view(), name='tags'),
     path('search/', search, name='search'),
+    path('increase-likes/<int:id>/',
+         IncreaseLikeView.as_view(), name='increase_likes'),
 ]

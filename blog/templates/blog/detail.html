@@ -1,72 +1,166 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load comments_extras %}
 
 {% block main %}
 
-  <div class="box-element">
+<div class="box-element">
 
-    <article class="post post-{{ post.pk }}">
+  <article class="post post-{{ post.pk }}">
 
     <header class="entry-header">
-        <h1 class="entry-title">{{ post.title }}</h1>
+      <h1 class="entry-title">{{ post.title }}</h1>
 
-        <div class="entry-meta">
+      <div class="entry-meta">
         <span class="post-category"><a>{{ post.categories.name }}</a></span>
         <span class="post-date"><a><time class="entry-date"
-                                                    datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
+              datetime="{{ post.created_time }}">{{ post.created_time }}</time></a></span>
         <span class="post-author"><a>{{ post.author }}</a></span>
-        <span class="comments-link"><a href="#comment-area">{{ post.comments_post.count }} <i class="fas fa-comment-dots"></i></a></span>
+        <span class="comments-link"><a href="#comment-area">{{ post.comments_post.count }} <i
+              class="fas fa-comment-dots"></i></a></span>
         <span class="views-count"><a>{{ post.views }} <i class="far fa-eye"></i></a></span>
-        </div>
+      </div>
 
     </header>
 
     <div class="entry-content clearfix">
-        {{ post.body_html|safe }}
+      {{ post.body_html|safe }}
     </div>
 
-    
+    <!-- 新增点赞按钮 -->
+    <div style="text-align:center;" class="mt-4">
+      <button class="btn btn-outline-danger"
+              type="button"
+              onclick="validate_is_like(
+                      '{% url 'blog:increase_likes' post.id %}',
+                      {{ post.id }},
+                      {{ post.likes }}
+                      )"
+              >
+        <span>点赞</span>
+        <span>
+            <i class="fas fa-heart"></i>
+        </span>
+        <span id="likes_number">
+            {{ article.likes }}
+        </span>
+      </button>
+    </div>
+
     <br>
     <br>
-    </article>
-    <hr>
+  </article>
+  <hr>
 
-    <section class="comment-area" id="comment-area">
-      <h3 class="entry-title">发表评论</h3>
-      {% if user.is_authenticated %}
-        {% show_comment_form post %}
-      {% else %}
-        <h5 class="row justify-content-center">
-            请<a href="{% url 'userprofile:user_login' %}">登录</a>后回复
-        </h5>
-        <br>
-      {% endif %}
+  <section class="comment-area" id="comment-area">
+    <h3 class="entry-title">发表评论</h3>
+    {% if user.is_authenticated %}
+    {% show_comment_form post %}
+    {% else %}
+    <h5 class="row justify-content-center">
+      请<a href="{% url 'userprofile:user_login' %}">登录</a>后回复
+    </h5>
+    <br>
+    {% endif %}
 
-      <div class="comment-list-panel entry-title">
-        {% show_comments post %}
-      </div>
-    </section>
+    <div class="comment-list-panel entry-title">
+      {% show_comments post %}
+    </div>
+  </section>
 
-  </div>
+</div>
 
 {% endblock main %}
 
 {% block toc %}
 
-  {% if post.toc %}
+{% if post.toc %}
 
-    <div class="widget widget-content box-element">
+<div class="widget widget-content box-element">
 
-      <h3 class="entry-free">文章目录</h3>
-      <div class="toc">
-        <ul>
-          {{ post.toc|safe }}
-        </ul>
-      </div>
-      
-    </div>
-    <br>
+  <h3 class="entry-free">文章目录</h3>
+  <div class="toc">
+    <ul>
+      {{ post.toc|safe }}
+    </ul>
+  </div>
 
-  {% endif %}
+</div>
+<br>
+
+{% endif %}
 
 {% endblock toc %}
+
+{% block script %}
+
+<script>
+    // 点赞功能主函数
+    function validate_is_like(url, id, likes) {
+        // 取出 LocalStorage 中的数据
+        let storage = window.localStorage;
+        const storage_str_data = storage.getItem("my_blog_data");
+        let storage_json_data = JSON.parse(storage_str_data);
+        // 若数据不存在，则创建空字典
+        if (!storage_json_data) {
+            storage_json_data = {}
+        };
+        // 检查当前文章是否已点赞。是则 status = true
+        const status = check_status(storage_json_data, id);
+        if (status) {
+            layer.msg('已经点过赞了哟~');
+            // 点过赞则立即退出函数
+            return;
+        } else {
+            // 用 Jquery 找到点赞数量，并 +1
+            $('span#likes_number').text(likes + 1).css('color', '#dc3545');
+        }
+        // 用 ajax 向后端发送 post 请求
+        $.post(
+            url,
+            // post 只是为了做 csrf 校验，因此数据为空
+            {},
+            function(result) {
+                if (result === 'success') {
+                    // 尝试修改点赞数据
+                    try {
+                        storage_json_data[id] = true;
+                    } catch (e) {
+                        window.localStorage.clear();
+                    };
+                    // 将字典转换为字符串，以便存储到 LocalStorage
+                    const d = JSON.stringify(storage_json_data);
+                    // 尝试存储点赞数据到 LocalStorage
+                    try {
+                        storage.setItem("my_blog_data", d);
+                    } catch (e) {
+                        // code 22 错误表示 LocalStorage 空间满了
+                        if (e.code === 22) {
+                            window.localStorage.clear();
+                            storage.setItem("my_blog_data", d);
+                        }
+                    };
+                } else {
+                    layer.msg("与服务器通信失败..过一会儿再试试呗~");
+                }
+
+            }
+        );
+    };
+
+    // 辅助点赞主函数，验证点赞状态
+    function check_status(data, id) {
+        // 尝试查询点赞状态
+        try {
+            if (id in data && data[id]) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            window.localStorage.clear();
+            return false;
+        };
+    };
+</script>
+{% endblock script %}

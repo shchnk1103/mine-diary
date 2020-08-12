@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Category, Post, Tag
-from django.views.generic import ListView, DetailView
-from pure_pagination.mixins import PaginationMixin
+from django.views.generic import ListView, DetailView, View
 from django.contrib import messages
 from django.db.models import Q
+from django.http import HttpResponse
 
 
+# 首页
 class IndexView(ListView):
 
     # 要获取的模型是 Post
@@ -27,6 +28,7 @@ class IndexView(ListView):
 #     return render(request, 'blog/index.html', context)
 
 
+# 详情页
 class PostDetailView(DetailView):
 
     model = Post
@@ -82,6 +84,7 @@ class PostDetailView(DetailView):
 #     return render(request, 'blog/detail.html', context)
 
 
+# 归档
 class ArchivesView(IndexView):
 
     def get_queryset(self):
@@ -102,6 +105,7 @@ class ArchivesView(IndexView):
 #     return render(request, 'blog/index.html', context)
 
 
+# 分类
 class CategoryView(IndexView):
 
     def get_queryset(self):
@@ -117,6 +121,7 @@ class CategoryView(IndexView):
 #     return render(request, 'blog/index.html', context)
 
 
+# 标签
 class TagsViews(IndexView):
 
     def get_queryset(self):
@@ -131,6 +136,7 @@ class TagsViews(IndexView):
 #     return render(request, 'blog/index.html', context)
 
 
+# 查找
 def search(request):
 
     # NavBar 中搜索框设置的 name
@@ -146,3 +152,11 @@ def search(request):
         Q(title__icontains=q) | Q(body__icontains=q))
     context = {'post_list': post_list}
     return render(request, 'blog/index.html', context)
+
+
+class IncreaseLikeView(View):
+    def post(self, request, *args, **kwargs):
+        post = Post.objects.get(id=kwargs.get('id'))
+        post.likes += 1
+        post.save()
+        return HttpResponse('success')

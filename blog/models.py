@@ -69,6 +69,8 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 浏览量
     views = models.PositiveIntegerField('浏览量', default=0, editable=False)
+    # 点赞数
+    likes = models.PositiveIntegerField(default=0)
 
     def __str__(self) -> str:
         return self.title
