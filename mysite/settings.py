@@ -148,3 +148,7 @@ SITE_ID = 1
 
 # 登录成功后重定向地址
 LOGIN_REDIRECT_URL = '/'
+
+# 媒体文件地址
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

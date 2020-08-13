@@ -15,6 +15,7 @@ faker = "*"
 django-pure-pagination = "*"
 coverage = "*"
 django-allauth = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"
