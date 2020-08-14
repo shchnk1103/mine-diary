@@ -19,8 +19,9 @@
         <span class="comments-link"><a href="#comment-area">{{ post.comments_post.count }} <i
               class="fas fa-comment-dots"></i></a></span>
         <span class="views-count"><a>{{ post.views }} <i class="far fa-eye"></i></a></span>
+        <span><a>| <i class="fas fa-edit"></i></a></span>
         <span>
-          <a href="#" onclick="confirm_safe_delete()">删除文章</a>
+          <a href="#" onclick="confirm_safe_delete()">| <i class="fas fa-backspace"></i></a>
           <!-- 新增一个隐藏的表单 -->
           <form 
                 style="display:none;" 
