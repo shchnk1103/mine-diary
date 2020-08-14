@@ -1,9 +1,13 @@
+from blog.forms import PostForm
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Category, Post, Tag
 from django.views.generic import ListView, DetailView, View
 from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+# 引入login装饰器
+from django.contrib.auth.decorators import login_required
 
 
 # 首页
@@ -154,9 +158,46 @@ def search(request):
     return render(request, 'blog/index.html', context)
 
 
+# 点赞
 class IncreaseLikeView(View):
     def post(self, request, *args, **kwargs):
         post = Post.objects.get(id=kwargs.get('id'))
         post.likes += 1
         post.save()
         return HttpResponse('success')
+
+
+# 写文章
+def create_post(request):
+    if request.method == "POST":
+        post_form = PostForm(data=request.POST)
+        if post_form.is_valid():
+            new_article = post_form.save(commit=False)
+            new_article.author = User.objects.get(id=request.user.id)
+            new_article.categories = Category.objects.get(
+                id=request.POST['categories'])
+            new_article.save()
+            return redirect('blog:index')
+        else:
+            return HttpResponse('表单信息有误，请重新输入～')
+    else:
+        post_form = PostForm()
+        categories = Category.objects.all()
+        context = {
+            'post_form': post_form,
+            'categories': categories,
+        }
+        return render(request, 'blog/create.html', context)
+
+
+# 删除文章
+@login_required(login_url='/userprofile/login/')
+def safe_delete_post(request, id):
+    if request.method == "POST":
+        article = Post.objects.get(id=id)
+        if request.user != article.author:
+            return HttpResponse('抱歉，你无权修改这篇文章~')
+        article.delete()
+        return redirect('blog:index')
+    else:
+        return HttpResponse('仅允许post请求~')

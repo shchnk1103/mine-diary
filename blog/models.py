@@ -62,9 +62,9 @@ class Post(models.Model):
     modified_time = models.DateTimeField('修改时间')
     # 摘要
     excerpt = models.CharField('摘要', max_length=100, blank=True)
-    # 归档
+    # 分类
     categories = models.ForeignKey(
-        Category, verbose_name='归档', on_delete=models.CASCADE)
+        Category, verbose_name='分类', on_delete=models.CASCADE)
     # 标签
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 浏览量

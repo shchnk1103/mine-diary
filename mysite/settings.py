@@ -43,13 +43,6 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'comments.apps.CommentsConfig',
     'userprofile.apps.UserprofileConfig',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # 可添加需要的第三方登录
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.weibo',
 ]
 
 MIDDLEWARE = [
@@ -134,20 +127,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-AUTHENTICATION_BACKENDS = (
-    # Django 后台可独立于 allauth 登录
-    'django.contrib.auth.backends.ModelBackend',
-
-    # 配置 allauth 独有的认证方法，如 email 登录
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
-# 设置站点
-SITE_ID = 1
-
-# 登录成功后重定向地址
-LOGIN_REDIRECT_URL = '/'
 
 # 媒体文件地址
 MEDIA_URL = '/media/'

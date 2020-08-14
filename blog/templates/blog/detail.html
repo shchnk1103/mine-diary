@@ -19,6 +19,19 @@
         <span class="comments-link"><a href="#comment-area">{{ post.comments_post.count }} <i
               class="fas fa-comment-dots"></i></a></span>
         <span class="views-count"><a>{{ post.views }} <i class="far fa-eye"></i></a></span>
+        <span>
+          <a href="#" onclick="confirm_safe_delete()">删除文章</a>
+          <!-- 新增一个隐藏的表单 -->
+          <form 
+                style="display:none;" 
+                id="safe_delete"
+                action="{% url 'blog:post_safe_delete' post.id %}" 
+                method="POST"
+                >
+              {% csrf_token %}
+              <button type="submit">发送</button>
+          </form>
+        </span>
       </div>
 
     </header>
@@ -69,6 +82,20 @@
   </section>
 
 </div>
+
+<script>
+    // 删除文章的函数
+    function confirm_safe_delete() {
+        layer.open({
+            title: "确认删除",
+            content: "确认删除这篇文章吗？",
+            yes: function(index, layero) {
+                $('form#safe_delete button').click();
+                layer.close(index);
+            }
+        })
+    }
+</script>
 
 {% endblock main %}
 
