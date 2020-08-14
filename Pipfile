@@ -15,6 +15,7 @@ faker = "*"
 django-pure-pagination = "*"
 coverage = "*"
 pillow = "*"
+django-taggit = "*"
 
 [requires]
 python_version = "3.8"

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'comments.apps.CommentsConfig',
     'userprofile.apps.UserprofileConfig',
+    'taggit',
 ]
 
 MIDDLEWARE = [

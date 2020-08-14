@@ -23,17 +23,28 @@
 
                 <!-- 文章栏目 -->
                 <div class="form-group">
-                    <label for="categories">栏目</label>
+                    <label for="categories">分类</label>
                     <select class="form-control" 
                             id="categories" 
                             name="categories"
                     >
-                            <option value="none">请选择栏目..</option>
+                            <option value="none">请选择分类..</option>
                         {% for category in categories %}
                             <option value="{{ category.id }}">{{ category }}</option>
                         {% endfor %}
                     </select>
                 </div>
+
+                <!-- 标签 -->
+                <span>
+                    {% for tag in article.tags.all %}
+                        <a href="{% url 'article:article_list' %}?tag={{ tag }}"
+                        class="badge badge-secondary" 
+                        >
+                            {{ tag }}
+                        </a>
+                    {% endfor %}
+                </span>
 
                 <!-- 文章正文 -->
                 <div class="form-group">
