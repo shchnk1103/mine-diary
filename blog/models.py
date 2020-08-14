@@ -23,18 +23,6 @@ def generate_rich_content(value):
     return {"content": content, "toc": toc}
 
 
-# 标签
-class Tag(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self) -> str:
-        return self.name
-
-    class Meta:
-        verbose_name = '标签'
-        verbose_name_plural = verbose_name
-
-
 # 分类
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -65,8 +53,6 @@ class Post(models.Model):
     # 分类
     categories = models.ForeignKey(
         Category, verbose_name='分类', on_delete=models.CASCADE)
-    # 标签
-    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 浏览量
     views = models.PositiveIntegerField('浏览量', default=0, editable=False)
     # 点赞数

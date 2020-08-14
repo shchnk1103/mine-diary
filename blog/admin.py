@@ -1,12 +1,12 @@
 from typing import Any
 from django.contrib import admin
-from .models import Post, Tag, Category
+from .models import Post, Category
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_time',
                     'modified_time', 'categories', 'author']
-    fields = ['title', 'body', 'excerpt', 'categories', 'tags']
+    fields = ['title', 'body', 'excerpt', 'categories']
 
     def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
         obj.author = request.user
@@ -14,5 +14,4 @@ class PostAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Tag)
 admin.site.register(Category)

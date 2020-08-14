@@ -1,5 +1,5 @@
 from django import template
-from ..models import Post, Category, Tag
+from ..models import Post, Category
 from django.db.models.aggregates import Count
 from django.db.models.functions import ExtractYear, ExtractMonth
 
@@ -29,13 +29,4 @@ def show_categories(context):
         num_posts=Count('post')).filter(num_posts__gt=0)
     return {
         'category_list': category_list
-    }
-
-
-@register.inclusion_tag('blog/inclusions/_tags.html', takes_context=True)
-def show_tags(context):
-    tag_list = Tag.objects.annotate(
-        num_posts=Count('post')).filter(num_posts__gt=0)
-    return {
-        'tag_list': tag_list
     }

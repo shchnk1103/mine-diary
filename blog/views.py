@@ -1,6 +1,6 @@
 from blog.forms import PostForm
 from django.shortcuts import get_object_or_404, redirect, render
-from .models import Category, Post, Tag
+from .models import Category, Post
 from django.views.generic import ListView, DetailView, View
 from django.contrib import messages
 from django.db.models import Q
@@ -121,21 +121,6 @@ class CategoryView(IndexView):
 #     category = get_object_or_404(Category, pk=pk)
 #     post_list = Post.objects.filter(
 #         categories=category)
-#     context = {'post_list': post_list, }
-#     return render(request, 'blog/index.html', context)
-
-
-# 标签
-class TagsViews(IndexView):
-
-    def get_queryset(self):
-        tags = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
-        return super().get_queryset().filter(tags=tags)
-
-
-# def tags(request, pk):
-#     tag = get_object_or_404(Tag, pk=pk)
-#     post_list = Post.objects.filter(tags=tag)
 #     context = {'post_list': post_list, }
 #     return render(request, 'blog/index.html', context)
 
