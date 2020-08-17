@@ -1,4 +1,4 @@
-from blog.views import ArchivesView, CategoryView, IncreaseLikeView, IndexView, PostDetailView, create_post, safe_delete_post, search
+from blog.views import ArchivesView, CategoryView, IncreaseLikeView, IndexView, PostDetailView, create_post, safe_delete_post, search, update_post
 from django.urls import path
 
 app_name = 'blog'
@@ -14,4 +14,5 @@ urlpatterns = [
          IncreaseLikeView.as_view(), name='increase_likes'),
     path('create-post/', create_post, name='create_post'),
     path('delete-post/<int:id>/', safe_delete_post, name='post_safe_delete'),
+    path('update/<int:id>/', update_post, name='update'),
 ]

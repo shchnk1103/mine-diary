@@ -35,17 +35,6 @@
                     </select>
                 </div>
 
-                <!-- 标签 -->
-                <span>
-                    {% for tag in article.tags.all %}
-                        <a href="{% url 'article:article_list' %}?tag={{ tag }}"
-                        class="badge badge-secondary" 
-                        >
-                            {{ tag }}
-                        </a>
-                    {% endfor %}
-                </span>
-
                 <!-- 文章正文 -->
                 <div class="form-group">
                     <label for="body">文章正文: </label>

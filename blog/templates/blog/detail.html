@@ -19,7 +19,7 @@
         <span class="comments-link"><a href="#comment-area">{{ post.comments_post.count }} <i
               class="fas fa-comment-dots"></i></a></span>
         <span class="views-count"><a>{{ post.views }} <i class="far fa-eye"></i></a></span>
-        <span><a>| <i class="fas fa-edit"></i></a></span>
+        <span><a href="{% url 'blog:update' post.id %}">| <i class="fas fa-edit"></i></a></span>
         <span>
           <a href="#" onclick="confirm_safe_delete()">| <i class="fas fa-backspace"></i></a>
           <!-- 新增一个隐藏的表单 -->
@@ -102,21 +102,21 @@
 
 {% block toc %}
 
-{% if post.toc %}
+  {% if post.toc %}
 
-<div class="widget widget-content box-element">
+    <div class="widget widget-content box-element">
 
-  <h3 class="entry-free">文章目录</h3>
-  <div class="toc">
-    <ul>
-      {{ post.toc|safe }}
-    </ul>
-  </div>
+      <h3 class="widget-title entry-title">文章目录</h3>
+      <div class="toc">
+        <ul>
+          {{ post.toc|safe }}
+        </ul>
+      </div>
 
-</div>
-<br>
+    </div>
+    <br>
 
-{% endif %}
+  {% endif %}
 
 {% endblock toc %}
 

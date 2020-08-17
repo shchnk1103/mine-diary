@@ -181,8 +181,42 @@ def safe_delete_post(request, id):
     if request.method == "POST":
         article = Post.objects.get(id=id)
         if request.user != article.author:
-            return HttpResponse('抱歉，你无权修改这篇文章~')
+            messages.add_message(request, messages.ERROR,
+                                 '抱歉，你无权修改这篇文章~', extra_tags='danger')
+            return redirect('blog:detail', pk=id)
         article.delete()
         return redirect('blog:index')
     else:
         return HttpResponse('仅允许post请求~')
+
+
+# 更新文章
+@login_required(login_url='/userprofile/login/')
+def update_post(request, id):
+    article = Post.objects.get(id=id)
+
+    if request.user != article.author:
+        messages.add_message(request, messages.ERROR,
+                             '抱歉，你无权修改这篇文章~', extra_tags='danger')
+        return redirect('blog:detail', pk=id)
+
+    if request.method == "POST":
+        post_form = PostForm(data=request.POST)
+
+        if post_form.is_valid():
+            article.title = request.POST['title']
+            article.categories.id = request.POST['categories']
+            article.body = request.POST['body']
+            article.save()
+            return redirect('blog:detail', pk=id)
+        else:
+            return HttpResponse('数据不合法，请重新填写～')
+    else:
+        post_form = PostForm()
+        categories = Category.objects.all()
+        context = {
+            'post_form': post_form,
+            'article': article,
+            'categories': categories,
+        }
+        return render(request, 'blog/update.html', context)

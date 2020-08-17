@@ -1,12 +1,12 @@
-<div class="widget widget-archives">
+<div class="widget widget-content">
   <h3 class="widget-title entry-title">归档</h3>
   <ul>
     {% for date in date_list %}
-    <div class="entry-free">
-        <li>
-            <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月 <span class="post-count">( {{ date.num_posts }} )</a>
-        </li>
-    </div>
+      <div class="entry-free">
+          <li>
+              <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }} 年 {{ date.month }} 月 <span class="post-count">( {{ date.num_posts }} )</a>
+          </li>
+      </div>
     {% empty %}
       暂无归档！
     {% endfor %}
