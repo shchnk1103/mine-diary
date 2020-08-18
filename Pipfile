@@ -16,6 +16,8 @@ django-pure-pagination = "*"
 coverage = "*"
 pillow = "*"
 django-taggit = "*"
+djangorestframework = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.8"

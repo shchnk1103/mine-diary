@@ -1,3 +1,10 @@
+from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework.decorators import parser_classes, permission_classes
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny
+from rest_framework.generics import ListAPIView
+from blog.serializers import PostListSerializer
 from blog.forms import PostForm
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Category, Post
@@ -26,6 +33,7 @@ class IndexView(ListView):
     paginate_by = 8
 
 
+# 首页
 # def index(request):
 #     post_list = Post.objects.all()
 #     context = {'post_list': post_list}
@@ -220,3 +228,18 @@ def update_post(request, id):
             'categories': categories,
         }
         return render(request, 'blog/update.html', context)
+
+
+# api 首页
+class IndexPostListAPIView(ListAPIView):
+    serializer_class = PostListSerializer
+    queryset = Post.objects.all()
+    pagination_class = PageNumberPagination
+    permission_classes = [AllowAny]
+
+
+class PostViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = PostListSerializer
+    queryset = Post.objects.all()
+    pagination_class = PageNumberPagination
+    permission_classes = [AllowAny]

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'userprofile.apps.UserprofileConfig',
     'taggit',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
