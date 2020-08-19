@@ -1,10 +1,15 @@
+from blog.filters import PostFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import mixins
-from rest_framework.decorators import parser_classes, permission_classes
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
+from rest_framework.decorators import action
+from rest_framework.fields import DateField
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import ListAPIView
-from blog.serializers import PostListSerializer
+from rest_framework.response import Response
+from blog.serializers import PostListSerializer, PostRetrieveSerializer
 from blog.forms import PostForm
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import Category, Post
@@ -238,8 +243,35 @@ class IndexPostListAPIView(ListAPIView):
     permission_classes = [AllowAny]
 
 
-class PostViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class PostViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet
+):
     serializer_class = PostListSerializer
     queryset = Post.objects.all()
-    pagination_class = PageNumberPagination
+    pagination_class = LimitOffsetPagination
     permission_classes = [AllowAny]
+    serializer_class_table = {
+        'list': PostListSerializer,
+        'retrieve': PostRetrieveSerializer,
+    }
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PostFilter
+
+    def get_serializer_class(self):
+        return self.serializer_class_table.get(
+            self.action, super().get_serializer_class()
+        )
+
+    @action(
+        methods=['GET'],
+        detail=False,
+        url_path='archive/dates',
+        url_name='archive-date'
+    )
+    def list_archive_dates(self, request, *args, **kwargs):
+        dates = Post.objects.dates('created_time', 'month', order='DESC')
+        date_field = DateField()
+        data = [date_field.to_representation(date) for date in dates]
+        return Response(data=data, status=status.HTTP_200_OK)
