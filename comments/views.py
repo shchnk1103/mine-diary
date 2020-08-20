@@ -1,3 +1,6 @@
+from comments.models import Comment
+from comments.serializers import CommentSerializer
+from rest_framework import mixins, viewsets
 from django.shortcuts import get_object_or_404, redirect, render
 from blog.models import Post
 from .forms import CommentForm
@@ -35,3 +38,10 @@ def comment(request, post_pk):
             return render(request, 'comments/preview.html', context)
     else:
         return HttpResponse('发表评论仅接受POST请求~')
+
+
+class CommentViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        return Comment.objects.all()

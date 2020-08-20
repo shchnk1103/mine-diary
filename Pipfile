@@ -18,6 +18,7 @@ pillow = "*"
 django-taggit = "*"
 djangorestframework = "*"
 django-filter = "*"
+drf-extensions = "*"
 
 [requires]
 python_version = "3.8"

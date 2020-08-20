@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d0cebd5bd5e37800420739ebeafe831066e62008b193d45bbb23301de51b9bfb"
+            "sha256": "3d3be3793a22c92c881e74a9ad9ec5bcfaa6321ed2b86d355ca332d50f0f6ca2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -102,6 +102,14 @@
             ],
             "index": "pypi",
             "version": "==3.11.1"
+        },
+        "drf-extensions": {
+            "hashes": [
+                "sha256:9a76d59c8ecc2814860e94a0c96a26a824e392cd4550f2efa928af43c002a750",
+                "sha256:a04cf188d27fdc13a1083a3ac9e4d72d3d93fcef76b3584191489c75d550c10d"
+            ],
+            "index": "pypi",
+            "version": "==0.6.0"
         },
         "faker": {
             "hashes": [
